@@ -2,7 +2,7 @@ import json
 import random
 
 read_path = 'D:\学习\毕设\数据\数据整理\Ti-CNN\原始数据\Ti-CNN_total_data_analysis.json'
-write_path = 'TI-CNN_only_label'
+write_path = 'TI-CNN_only_label.json'
 total_data = []
 
 with open(read_path,'r',encoding='utf-8') as f:
