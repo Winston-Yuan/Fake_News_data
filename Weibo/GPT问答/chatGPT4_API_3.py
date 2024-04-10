@@ -2,6 +2,7 @@ from openai import OpenAI
 import httpx
 import os
 import json
+import time as times
 
 file_path = r"data3.json"
 write_path = r'Weibo_total_data_withGPT3.json'
@@ -41,34 +42,45 @@ with open(file_path, 'r', encoding='utf-8') as f:
             url = 'null'
         label_text = "label: {}\ndate: {}\nauthor: {}\nurl: {}\ntext: {}".format(label, time, author,url,text)
         print(label_text)
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",#gpt-4-0125-preview #gpt-3.5-turbo-0125
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You will be responsible for explaining the authenticity of specific news reports. In this process, you will receive a piece of news text material that comes with a pre-designated label indicating its authenticity or lack thereof. Your task is to conduct a detailed analysis of this label and provide a reasonable explanation to clarify the basis on which each report is determined to be true or false. Please note that the labels for the authenticity of the news are accurate, and you only need to provide an explanation for the labels."
-                               "\nPlease note that you must explain the news according to the label provided, you don't need to label news as true or false again."
-                               "\nYour answer should follow the following format:"
-                               "\nExplanation: The news is {} because these reasons:"
-                               "\nSource reliability: XXX"
-                               "\nAuthor background: XXX"
-                               "\nEvidence test: XXX"
-                               "\nLanguage style: XXX"
-                               "\nOther analysis: XXX".format(label)
-                },
-                {
-                    "role": "user",
-                    "content": label_text
-                }
-            ],
-            temperature=0,
-            max_tokens=400,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-        )
-        answer_content = response.choices[0].message.content
-        print('问题{}已回答'.format(num))
+        attempts = 0
+        while attempts < 5:
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo-0125",  # gpt-4-0125-preview #gpt-3.5-turbo-0125
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You will be responsible for explaining the authenticity of specific news reports. In this process, you will receive a piece of news text material that comes with a pre-designated label indicating its authenticity or lack thereof. Your task is to conduct a detailed analysis of this label and provide a reasonable explanation to clarify the basis on which each report is determined to be true or false. Please note that the labels for the authenticity of the news are accurate, and you only need to provide an explanation for the labels."
+                                       "\nPlease note that you must explain the news according to the label provided, you don't need to label news as true or false again."
+                                       "\nYour answer should follow the following format:"
+                                       "\nExplanation: The news is {} because these reasons:"
+                                       "\nSource reliability: XXX"
+                                       "\nAuthor background: XXX"
+                                       "\nEvidence test: XXX"
+                                       "\nLanguage style: XXX"
+                                       "\nOther analysis: XXX".format(label)
+                        },
+                        {
+                            "role": "user",
+                            "content": label_text
+                        }
+                    ],
+                    temperature=0,
+                    max_tokens=400,
+                    top_p=1,
+                    frequency_penalty=0,
+                    presence_penalty=0,
+                )
+                answer_content = response.choices[0].message.content
+                print('问题{}已回答'.format(num))
+                break
+            except:
+                print('请求失败')
+                times.sleep(2)  # 等待2秒后再次尝试
+                attempts += 1  # 增加尝试次数
+        else:
+            print('超过最大尝试次数，跳过这个问答')
+            continue
         #将输出的结果写回文件
         json_contents['GPT_analysis_0'] = answer_content
         news.append(json_contents)

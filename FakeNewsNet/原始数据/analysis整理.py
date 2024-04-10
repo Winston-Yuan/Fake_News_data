@@ -1,6 +1,6 @@
 import json
 
-read_path = 'gossipcop_total.json'
+read_path = 'gossipcop_total_f.json'
 write_path = 'gossipcop_total_analysis.json'
 total_data = []
 with open(read_path,'r',encoding='utf-8') as f:
