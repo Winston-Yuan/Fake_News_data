@@ -17,7 +17,7 @@ with open(read_path,'r',encoding='utf-8') as f:
             author = 'null'
         input = 'time: '+news['time'] +' \n '+'author: '+ author +' \n '+'source: ' + news['url'] +' \n '+'text: ' + news['text']
         conversation[
-            'instruction'] = "You will be responsible for explaining the veracity of a particular news story. During this process, you will receive a news text material. Your task is to provide the label of the news without any explanation. \nYour answer should follow the following format: Label: real/fake \nBelow is the news text material:"
+            'instruction'] = "You will be responsible for explaining the veracity of a particular news story. During this process, you will receive a news text material. Your task is to provide the label of the news without any explanation. \nYour answer should follow the following format: Label: real/fake \nHere is the news text material:"
         conversation['input'] = input
         conversation['output'] = answer
         total_data.append(conversation)
