@@ -42,7 +42,7 @@ news = []
 file_path = r"Ti-CNN_data_filtered_text.json"
 write_path = r'Ti-CNN_data_filtered_GPT_Textual_Description.json'
 start = 0
-end = 500
+end = 1000
 with open(file_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
     random.shuffle(data)
