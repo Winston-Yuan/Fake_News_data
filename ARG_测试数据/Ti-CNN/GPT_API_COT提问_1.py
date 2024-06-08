@@ -39,7 +39,7 @@ def Ask_GPT(system_prompt, user_prompt):
 
 num = 0
 news = []
-file_path = r"Ti-CNN_data_filtered.json"
+file_path = r"Ti-CNN_data_filtered_text.json"
 write_path = r'Ti-CNN_data_filtered_GPT_Commonsense.json'
 start = 0
 end = 500
@@ -53,9 +53,14 @@ with open(file_path, 'r', encoding='utf-8') as f:
 
     for k in range(start,end):
         json_contents = data[k]
-        label_text = json_contents['input']
+        label_text = json_contents['text']
+        print(label_text)
         system_prompt = ("You are a fake news detection expert, please analyze whether the following news "
-                         "from the perspective of Commonsense."
+                         "from the perspective of Commonsense.For Example:"
+                         "News Content: April the giraffe with her new baby calf shortly after she gave birth last year. ( Photo : USA TODAY ) After months of questions and rumors, Animal Adventure Park owner Jordan Patch announced Wednesday the news millions of worldwide giraffe fans have been waiting to hear : April the giraffe is pregnant again. Last month, the park announced it was sending 30 days worth of fecal samples to another zoo's laboratory for progesterone testing to confirm the pregnancy, 14 months after April gave birth to her calf, Tajiri on site at the park. Keeper Allysa Swilley had collected a fecal sample from April's stall over the course of a month. The samples were secured in plastic bags, labeled and dated before being put in freezer storage. April is months into her pregnancy"
+                         "Analysis: Plausibility: It is plausible that a giraffe in a zoo could become pregnant again after giving birth, so this aspect of the message is believable.\n\nVerifiability: The message mentions that the park sent fecal samples to another zoo's laboratory for testing, which suggests that there is some scientific evidence to support the claim. However, we do not have access to the results of the testing, so we cannot fully verify the claim.\n\nSource credibility: The message comes from a news article published by USA Today, which is a reputable news source. Additionally, the article quotes the owner of the Animal Adventure Park, which suggests that the information is coming from a credible source."
+                         "News Content: 7 of 7 The actress is trying to re - build her life after announcing her split with Theroux just two months ago after it became apparent the air were no longer living together. We pay for juicy info! Do you have a story for RadarOnline. com? Email us at tips @ radaronline. com, or call us at ( 866 ) ON - RADAR ( 667 - 2327 ) any time, day or night. Photo credit : BACKGRID"
+                         "Analysis: Plausibility: The message seems plausible as it is common for people to try to rebuild their lives after a breakup.\n\nVerifiability: The message does not provide any verifiable information or sources to support the claim.\n\nSource credibility: The message is from RadarOnline.com, which is a celebrity gossip website. The credibility of the source is questionable as they are known for publishing sensationalized stories.\n\nBased on the analysis, "
                          "Here is the news content: \n")
         system_prompt_0 = ("You will receive an evaluation of the news from a fake news expert. Please classify the "
                            "news based on the expert's evaluation. Your answer should be either '1' if the news is real"

@@ -39,7 +39,7 @@ def Ask_GPT(system_prompt, user_prompt):
 
 num = 0
 news = []
-file_path = r"Ti-CNN_data_filtered.json"
+file_path = r"Ti-CNN_data_filtered_text.json"
 write_path = r'Ti-CNN_data_filtered_GPT_Textual_Description.json'
 start = 0
 end = 500
@@ -53,9 +53,14 @@ with open(file_path, 'r', encoding='utf-8') as f:
 
     for k in range(start,end):
         json_contents = data[k]
-        label_text = json_contents['input']
-        system_prompt = ("You are a fake news detection expert, please analyze whether the following news "
-                         "from the perspective of Textual Description."
+        label_text = json_contents['text']
+        print(label_text)
+        system_prompt = ("You are a fake news detection expert, please analyse whether the following news "
+                         "from the perspective of Textual Description.For Example:"
+                         "News Content: In February, Alicia Silverstone and Christopher Jarecki announced they were divorcing after 20 years together. The couple has a six - year - old son together, Bear Blu. ( Photo : Frazer Harrison, Getty Images ) Alicia Silverstone has filed for divorce from her husband of nearly 13 years, actor and musician Christopher Jarecki. The divorce papers were filed in Los Angeles County Superior Court on Friday, according to the Associated Press. The Clueless star, 41, had separated from Jarecki, 47, in February after more than 20 years together as a couple. At the time the couple said in a statement that ` ` they still deeply love and respect each other and remain very close friends.'' The papers state the couple will share custody of their 7 - year - old son, Bear Blue"
+                         "Analysis: The message includes specific details such as the names of the individuals involved, their ages, and the fact that they have a child together. The message also includes a source (the Associated Press) which adds credibility to the information. The message uses direct quotes from the couple's statement, which adds authenticity to the message."
+                         "News Content: NOW PLAYING A History Of ‘ SNL ’ Romance Ariana Grande, Scarlett Johansson, Emma Stone, Ben Affleck, Carrie Fisher and Elisabeth Moss and are just some of the celebrities who found love on the set of “ Saturday Night Live."
+                         "Analysis:  The message mentions specific celebrities who have reportedly found love on the set of 'Saturday Night Live.' The message uses proper grammar and punctuation. The message does not contain any obvious spelling or grammatical errors."
                          "Here is the news content: \n")
         system_prompt_0 = ("You will receive an evaluation of the news from a fake news expert. Please classify the "
                            "news based on the expert's evaluation. Your answer should be either '1' if the news is real"
