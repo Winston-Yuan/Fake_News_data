@@ -5,7 +5,7 @@ with open('gossipcop_data_filtered.json','r',encoding='utf-8') as f:
     for news in data:
         input = news['input']
         text = input.split('text:')[1]
-        if text == 'null' :
+        if text == " null" :
             continue
         news['text'] = text
         new_data.append(news)
